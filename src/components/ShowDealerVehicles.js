@@ -2,23 +2,24 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import ShowVehicleDeals from "../components/ShowVehicleDeals";
 import styles from "../components/Vehicle.module.css";
-import Brandlist from "../components/Brandlist";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { FaChevronLeft } from "react-icons/fa";
 
-function Carmodelbybrand() {
+function ShowAllDealersVehicles() {
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [dealerInfo, setDealerInfo] = useState({}); // State for dealer information
   const vehiclesPerPage = 8; // Define the number of vehicles per page
 
   const { dealerId } = useParams();
 
   const getVehicles = useCallback(async () => {
     try {
-      let url = `http://localhost:8000/api/dealerVehicle/${dealerId}?page=${currentPage}&limit=${vehiclesPerPage}`;
+      let url = `http://localhost:8000/api/dealerVehicles/${dealerId}?page=${currentPage}&limit=${vehiclesPerPage}`;
       const response = await axios.get(url);
       const { models, currentPage: page, totalPages } = response.data;
-
       if (models.length === 0) {
         setVehicles([]);
         setCurrentPage(1);
@@ -27,6 +28,7 @@ function Carmodelbybrand() {
         setVehicles(models);
         setCurrentPage(page);
         setTotalPages(totalPages);
+        setDealerInfo(models.length > 0 ? models[0].dealer : {}); // Set dealer information
       }
     } catch (error) {
       console.log(error);
@@ -47,11 +49,18 @@ function Carmodelbybrand() {
 
   return (
     <div className={styles["home-page"]}>
-      <h1>List of dealers who have this Vehicle </h1>
+      <div className={styles["dealers-vehicle-profile"]}>
+        <img src={dealerInfo.image} alt={dealerInfo.dealerName} />
+      </div>
+      <h1>{dealerInfo.dealerName}'s Vehicle</h1>
       {/* Consider rendering a specific vehicle's image */}
       {/* <img src={vehicles.modelName} alt={vehicles.modelName} /> */}
-
-      <Brandlist />
+      <Link className={styles["dealer-deal"]} to={"/dealer-profile"}>
+        <span>
+          <FaChevronLeft className={styles["dealer-deal-arrow"]} />
+          back
+        </span>
+      </Link>
       <div className={styles["vehicle-grid"]}>
         {vehicles.map((vehicle) => (
           <ShowVehicleDeals key={vehicle._id} vehicle={vehicle} />
@@ -72,4 +81,4 @@ function Carmodelbybrand() {
   );
 }
 
-export default Carmodelbybrand;
+export default ShowAllDealersVehicles;

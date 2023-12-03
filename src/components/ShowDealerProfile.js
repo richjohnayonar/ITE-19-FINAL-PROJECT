@@ -3,7 +3,7 @@ import styles from "./Vehicle.module.css";
 import { Link } from "react-router-dom";
 
 function ShowDealerProfile({ vehicle }) {
-  const formattedModelName = vehicle.dealerName.replace(/\s+/g, "-");
+  const FormattedDealerName = vehicle.dealerName.replace(/\s+/g, "-");
   return (
     <div className={styles["dealer-profile-container"]}>
       <div className={styles["left-side"]}>
@@ -28,7 +28,7 @@ function ShowDealerProfile({ vehicle }) {
         <h2>{vehicle.dealerEmail}</h2>
       </div>
       <Link
-        to={`/${formattedModelName}-vehicle/${vehicle._id}`}
+        to={`/${FormattedDealerName}-vehicle/${vehicle._id}`}
         className={styles["View-deals"]}
       >
         <h2>View Deals</h2>

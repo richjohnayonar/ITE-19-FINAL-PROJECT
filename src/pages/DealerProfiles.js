@@ -8,7 +8,7 @@ function DealerProfile() {
   const getDealerProfiles = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/dealer");
-      console.log(response.data); // Check to ensure you're receiving data
+      // console.log(response.data); // Check to ensure you're receiving data
       setDealerProfiles(response.data);
     } catch (error) {
       console.log(error);

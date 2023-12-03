@@ -211,6 +211,37 @@
   color: rgb(44, 94, 137);
 }
 
+.dealers-vehicle-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.dealers-vehicle-profile img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dealer-deal {
+  text-decoration: none;
+}
+
+.dealer-deal span {
+  color: rgb(79, 108, 133);
+  font-size: 30px;
+}
+
+.dealer-deal-arrow {
+  color: rgb(79, 108, 133);
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  margin-right: 10px;
+}
+
 /* change this tommorownpm s */
 @media screen and (max-width: 780px) {
   .dealer-profile-container {

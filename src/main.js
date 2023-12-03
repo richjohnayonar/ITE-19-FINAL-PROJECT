@@ -7,7 +7,7 @@ import VehicleList from "./pages/VehicleList";
 import ShowSpecificVehicle from "./pages/ShowSpecificVehicleDeals";
 import CarModelByBrand from "./pages/CarModelByBrand";
 import DealerProfile from "./pages/DealerProfiles";
-import ShowDealerVehicle from "./components/ShowVehicleDeals";
+import ShowDealerVehicle from "./components/ShowDealerVehicles";
 
 function Main({ handleLogout }) {
   return (
@@ -22,7 +22,7 @@ function Main({ handleLogout }) {
           />
           <Route path="/vehicle-list" exact component={VehicleList} />
           <Route
-            path="/:dealerName-vehicle"
+            path="/:dealerName-vehicle/:dealerId"
             exact
             component={ShowDealerVehicle}
           />
