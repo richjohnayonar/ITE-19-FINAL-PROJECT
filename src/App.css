@@ -91,13 +91,19 @@
   margin: 50px 10px;
 }
 
+.specific-dealer-container h1 {
+  text-transform: uppercase;
+  margin-bottom: 35px;
+}
+
 .table-container {
   width: 94%;
   margin: 0 auto; /* Center the table */
   z-index: -1;
 }
 .table-container h2 {
-  margin: 90px 0 20px 0;
+  margin: 70px 0 20px 0;
+  font-size: 25px;
 }
 
 @media (max-width: 768px) {
@@ -121,4 +127,25 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.manufacturer-link {
+  text-decoration: none;
+}
+.manufacturer-span {
+  margin: 0;
+  text-decoration: none;
+}
+
+.manufacturer-click-for-more-info {
+  margin-top: 90px;
+  margin-left: 40px;
+  font-size: 25px;
+  text-transform: uppercase;
+}
+
+.manufacturer-title h1 {
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 80px;
 }

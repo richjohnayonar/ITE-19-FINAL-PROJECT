@@ -21,6 +21,7 @@ function DealerProfile() {
 
   return (
     <div className="specific-dealer-container">
+      <h1>Dealer Profile</h1>
       {dealerProfiles.map((vehicle) => (
         <ShowDealerProfile key={vehicle._id} vehicle={vehicle} />
       ))}
