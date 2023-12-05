@@ -242,6 +242,16 @@
   margin-right: 10px;
 }
 
+/* loading styles */
+.loading-styles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Adjust height as needed */
+  font-size: 24px;
+  color: #333;
+  /* Add more styling properties as desired */
+}
 /* change this tommorownpm s */
 @media screen and (max-width: 780px) {
   .dealer-profile-container {

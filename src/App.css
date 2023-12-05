@@ -84,6 +84,22 @@
   width: 30%;
 }
 
+.specific-dealer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px 10px;
+}
+
+.table-container {
+  width: 94%;
+  margin: 0 auto; /* Center the table */
+  z-index: -1;
+}
+.table-container h2 {
+  margin: 90px 0 20px 0;
+}
+
 @media (max-width: 768px) {
   .login-register-box {
     width: 70%; /* Adjust width for smaller screens */

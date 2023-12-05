@@ -8,7 +8,7 @@ import ShowSpecificVehicle from "./pages/ShowSpecificVehicleDeals";
 import CarModelByBrand from "./pages/CarModelByBrand";
 import DealerProfile from "./pages/DealerProfiles";
 import ShowDealerVehicle from "./components/ShowDealerVehicles";
-
+import Manufacturer from "./pages/Manufacturer";
 function Main({ handleLogout }) {
   return (
     <>
@@ -31,6 +31,7 @@ function Main({ handleLogout }) {
             component={ShowSpecificVehicle}
           />
           <Route path="/dealer-profile" component={DealerProfile} />
+          <Route path="/manufacturer" component={Manufacturer} />
         </Switch>
       </Router>
     </>

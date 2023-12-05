@@ -20,7 +20,7 @@ function DealerProfile() {
   }, []);
 
   return (
-    <div className="table-container">
+    <div className="specific-dealer-container">
       {dealerProfiles.map((vehicle) => (
         <ShowDealerProfile key={vehicle._id} vehicle={vehicle} />
       ))}

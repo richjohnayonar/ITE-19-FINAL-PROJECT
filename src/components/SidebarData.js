@@ -18,4 +18,10 @@ export const SidebarData = [
     icon: <FaIcons.FaUserTie />,
     cName: "nav-text",
   },
+  {
+    title: "Manufacturer",
+    path: "/manufacturer",
+    icon: <FaIcons.FaBuilding />,
+    cName: "nav-text",
+  },
 ];
