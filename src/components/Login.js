@@ -60,7 +60,7 @@ export default function Login({ handleLogin, isAuthenticated }) {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter Username"
-              style={{ marginBottom: "8px" }}
+              style={{ marginBottom: "2px" }}
             />
           </Form.Group>
 

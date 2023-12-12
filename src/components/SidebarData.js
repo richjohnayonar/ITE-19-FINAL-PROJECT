@@ -24,4 +24,10 @@ export const SidebarData = [
     icon: <FaIcons.FaBuilding />,
     cName: "nav-text",
   },
+  {
+    title: "Sales",
+    path: "/sales",
+    icon: <FaIcons.FaDollarSign />,
+    cName: "nav-text",
+  },
 ];

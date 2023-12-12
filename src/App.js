@@ -59,7 +59,7 @@ function App() {
                 <Redirect to="/login" />
               );
             }}
-          />{" "}
+          />
           <Route path="/" component={Landingpage} />
         </Switch>
       </Router>

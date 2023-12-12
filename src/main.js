@@ -9,6 +9,8 @@ import CarModelByBrand from "./pages/CarModelByBrand";
 import DealerProfile from "./pages/DealerProfiles";
 import ShowDealerVehicle from "./components/ShowDealerVehicles";
 import Manufacturer from "./pages/Manufacturer";
+import Sales from "./pages/sales";
+
 function Main({ handleLogout }) {
   return (
     <>
@@ -32,6 +34,7 @@ function Main({ handleLogout }) {
           />
           <Route path="/dealer-profile" component={DealerProfile} />
           <Route path="/manufacturer" component={Manufacturer} />
+          <Route path="/sales" component={Sales} />
         </Switch>
       </Router>
     </>
