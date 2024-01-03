@@ -4,6 +4,7 @@ import ShowVehicleDeals from "../components/ShowVehicleDeals";
 import styles from "../components/Vehicle.module.css";
 import Brandlist from "../components/Brandlist";
 import { useParams } from "react-router-dom";
+import Loader from "../components/loader";
 
 function ShowSpecificVehicleDeals() {
   const [vehicles, setVehicles] = useState([]);
@@ -20,23 +21,29 @@ function ShowSpecificVehicleDeals() {
       setIsLoading(true);
       let url = `http://localhost:8000/api/dealerVehicle/${modelId}?page=${currentPage}&limit=${vehiclesPerPage}`;
       const response = await axios.get(url);
-      const { models, currentPage: page, totalPages } = response.data;
-
-      if (models.length === 0) {
+      const { data } = response; // Destructure the response
+      console.log(data);
+      if (!data.dealerVehicles || data.dealerVehicles.length === 0) {
         setVehicles([]);
         setCurrentPage(1);
         setTotalPages(0);
+        setIsLoading(false);
       } else {
-        setVehicles(models);
-        setCurrentPage(page);
+        const { dealerVehicles, currentPage, totalPages } = data; // Destructure from data
+
+        setVehicles(dealerVehicles);
+        setCurrentPage(currentPage);
         setTotalPages(totalPages);
-        setModelInfo(models.length > 0 ? models[0].vehicleModel : {}); // Set dealer information
+        setModelInfo(
+          dealerVehicles.length > 0 ? dealerVehicles[0].modelInfo : {}
+        );
         setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
-  }, [modelId, currentPage]);
+  }, [modelId, currentPage, vehiclesPerPage]); // Remove currentPage from the dependency array
 
   useEffect(() => {
     getVehicles();
@@ -53,12 +60,21 @@ function ShowSpecificVehicleDeals() {
   return (
     <>
       {isLoading ? (
-        <div className={styles["loading-styles"]}>
-          <p>Loading..</p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <Loader />
         </div>
       ) : (
         <div className={styles["home-page"]}>
-          <h1>{modelInfo.modelName}'s Dealers </h1>
+          <h1 style={{ fontWeight: "900", color: " rgb(102, 98, 98)" }}>
+            {modelInfo.modelName}'s Dealers{" "}
+          </h1>
           {/* Consider rendering a specific vehicle's image */}
           {/* <img src={vehicles.modelName} alt={vehicles.modelName} /> */}
 

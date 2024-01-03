@@ -12,24 +12,24 @@ function ShowDealerVehicle({ vehicle }) {
       <div className={styles["card-container"]}>
         <img
           className={styles["card-image"]}
-          src={vehicle.vehicleModel.image}
-          alt={vehicle.vehicleModel.modelName}
+          src={vehicle.modelInfo.image}
+          alt={vehicle.modelInfo.modelName}
         />
 
         <div className={styles["card-text-content"]}>
           <h2>
-            {vehicle.vehicleModel.modelName}
+            {vehicle.modelInfo.modelName}
             <FaLongArrowAltRight className={styles["arrow"]} />
-            <span>{vehicle.vehicleModel.brand.brandName}</span>
+            <span>{vehicle.brandInfo.brandName}</span>
           </h2>
           <div className={styles["vehicle-status-price"]}>
             <h4 className={styles["status"]}>{vehicle.vehicleStatus}</h4>
             <h4> $ {vehicle.price}</h4>
           </div>
           <div className={styles["dealer-info"]}>
-            <h4>{vehicle.dealer.dealerName}</h4>
+            <h4>{vehicle.dealerInfo.dealerName}</h4>
             <h4>{vehicle.dealer.dealerAddr}</h4>
-            <h4>{vehicle.dealer.dealerPhone}</h4>
+            <h4>{vehicle.dealerInfo.dealerPhone}</h4>
           </div>
 
           <div className={styles["center-button"]}>

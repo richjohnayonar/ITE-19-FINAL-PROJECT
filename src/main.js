@@ -10,6 +10,7 @@ import DealerProfile from "./pages/DealerProfiles";
 import ShowDealerVehicle from "./components/ShowDealerVehicles";
 import Manufacturer from "./pages/Manufacturer";
 import Sales from "./pages/sales";
+import SearchResult from "./pages/searchResult";
 
 function Main({ handleLogout }) {
   return (
@@ -35,6 +36,7 @@ function Main({ handleLogout }) {
           <Route path="/dealer-profile" component={DealerProfile} />
           <Route path="/manufacturer" component={Manufacturer} />
           <Route path="/sales" component={Sales} />
+          <Route path="/search-result/:query" component={SearchResult} />
         </Switch>
       </Router>
     </>
