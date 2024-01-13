@@ -7,7 +7,9 @@ function Searchbar() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = async () => {
-    history.push(`/vehicle/search-result/${searchQuery}`);
+    if (searchQuery.trim() !== "") {
+      history.push(`/vehicle/search-result/${searchQuery}`);
+    }
   };
 
   return (
