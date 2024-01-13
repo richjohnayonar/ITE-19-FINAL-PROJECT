@@ -17,7 +17,6 @@ function DealerProfile() {
         setIsLoading(true);
         const url = `${BASE_URL}/api/car/dealer`;
         const response = await axios.get(url, AxiosUtilsConfig());
-        // console.log(response.data); // Check to ensure you're receiving data
         setDealerProfiles(response.data);
         setIsLoading(false);
       } catch (error) {

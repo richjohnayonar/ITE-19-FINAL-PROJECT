@@ -34,7 +34,6 @@ const BrandsTable = () => {
         setIsLoading(true);
         const url = `${BASE_URL}/api/car/manufacturerVehicle`;
         const response = await axios.get(url, AxiosUtilsConfig());
-        console.log(response.data);
         setManufacturer(response.data);
         setIsLoading(false);
       } catch (error) {

@@ -57,7 +57,7 @@ function ShowAllDealersVehicles() {
       try {
         const url = `${BASE_URL}/api/car/salesByDealer/${dealerId}`;
         const response = await axios.get(url, AxiosUtilsConfig());
-        console.log(response.data);
+
         setdealerVehicles(response.data); // Assuming setDealerVehicles is a state setter function
       } catch (error) {
         console.log(error);
