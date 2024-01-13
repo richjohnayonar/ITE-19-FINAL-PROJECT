@@ -3,7 +3,10 @@ import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 
-export default function Login({ handleLogin, isAuthenticated }) {
+export default function Login({ handleLogin }) {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -29,7 +32,7 @@ export default function Login({ handleLogin, isAuthenticated }) {
 
     const configuration = {
       method: "post",
-      url: "http://localhost:8000/api/user/login",
+      url: `${BASE_URL}/api/user/login`,
       data: {
         username,
         password,

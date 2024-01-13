@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ShowVehicleDeals from "../components/ShowVehicleDeals";
 import styles from "../components/Vehicle.module.css";
@@ -8,6 +8,9 @@ import Loader from "../components/loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 function ShowSpecificVehicleDeals() {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -17,39 +20,39 @@ function ShowSpecificVehicleDeals() {
 
   const { modelId } = useParams();
 
-  const getVehicles = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      let url = `http://localhost:8000/api/car/dealerVehicle/${modelId}?page=${currentPage}&limit=${vehiclesPerPage}`;
+  useEffect(() => {
+    const getVehicles = async () => {
+      try {
+        setIsLoading(true);
+        let url = `${BASE_URL}/api/car/dealerVehicle/${modelId}?page=${currentPage}&limit=${vehiclesPerPage}`;
 
-      const response = await axios.get(url, AxiosUtilsConfig());
-      const { data } = response; // Destructure the response
-      console.log(data);
-      if (!data.dealerVehicles || data.dealerVehicles.length === 0) {
-        setVehicles([]);
-        setCurrentPage(1);
-        setTotalPages(0);
-        setIsLoading(false);
-      } else {
-        const { dealerVehicles, currentPage, totalPages } = data; // Destructure from data
+        const response = await axios.get(url, AxiosUtilsConfig());
+        const { data } = response; // Destructure the response
 
-        setVehicles(dealerVehicles);
-        setCurrentPage(currentPage);
-        setTotalPages(totalPages);
-        setModelInfo(
-          dealerVehicles.length > 0 ? dealerVehicles[0].modelInfo : {}
-        );
+        if (!data.dealerVehicles || data.dealerVehicles.length === 0) {
+          setVehicles([]);
+          setCurrentPage(1);
+          setTotalPages(0);
+          setIsLoading(false);
+        } else {
+          const { dealerVehicles, currentPage, totalPages } = data; // Destructure from data
+
+          setVehicles(dealerVehicles);
+          setCurrentPage(currentPage);
+          setTotalPages(totalPages);
+          setModelInfo(
+            dealerVehicles.length > 0 ? dealerVehicles[0].modelInfo : {}
+          );
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
         setIsLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  }, [modelId, currentPage, vehiclesPerPage]); // Remove currentPage from the dependency array
+    };
 
-  useEffect(() => {
     getVehicles();
-  }, [getVehicles]);
+  }, [BASE_URL, modelId, currentPage, vehiclesPerPage]);
 
   const nextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));

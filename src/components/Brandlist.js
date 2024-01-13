@@ -7,27 +7,30 @@ import Loader from "./loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 function Brandlist() {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [brand, setBrand] = useState([]);
   const [activeBrand, setActiveBrand] = useState(null);
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
-  const getBrand = async () => {
-    try {
-      setIsLoading(true);
-      const url = "http://localhost:8000/api/car/brand";
-      const response = await axios.get(url, AxiosUtilsConfig());
-      setBrand(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const getBrand = async () => {
+      try {
+        setIsLoading(true);
+        const url = `${BASE_URL}/api/car/brand`;
+        const response = await axios.get(url, AxiosUtilsConfig());
+        setBrand(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+
     getBrand();
-  }, []);
+  }, [BASE_URL]);
 
   useEffect(() => {
     const brandIdFromUrl = location.pathname.split("/").pop();

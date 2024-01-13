@@ -6,42 +6,44 @@ import Loader from "../components/loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 const BrandsTable = () => {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [manufacturer, setManufacturer] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchBrands = async () => {
-    try {
-      setIsLoading(true);
-      const url = "http://localhost:8000/api/car/brand";
-      const response = await axios.get(url, AxiosUtilsConfig());
-      setBrands(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching brands:", error);
-      setIsLoading(false);
-    }
-  };
-
-  const getManufacturer = async () => {
-    try {
-      setIsLoading(true);
-      const url = "http://localhost:8000/api/car/manufacturerVehicle";
-      const response = await axios.get(url, AxiosUtilsConfig());
-      console.log(response.data);
-      setManufacturer(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        setIsLoading(true);
+        const url = `${BASE_URL}/api/car/brand`;
+        const response = await axios.get(url, AxiosUtilsConfig());
+        setBrands(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching brands:", error);
+        setIsLoading(false);
+      }
+    };
     fetchBrands();
+
+    const getManufacturer = async () => {
+      try {
+        setIsLoading(true);
+        const url = `${BASE_URL}/api/car/manufacturerVehicle`;
+        const response = await axios.get(url, AxiosUtilsConfig());
+        console.log(response.data);
+        setManufacturer(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
     getManufacturer();
-  }, []);
+  }, [BASE_URL]);
 
   const handleBrandClick = (brand) => {
     setSelectedBrand(brand);

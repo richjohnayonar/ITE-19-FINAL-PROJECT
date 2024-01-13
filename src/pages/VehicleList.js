@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Vehicle from "../components/Vehicle";
 import styles from "../components/Vehicle.module.css";
@@ -7,30 +7,33 @@ import Loader from "../components/loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 function Home() {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [vehiclesPerPage] = useState(8);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getVehicles = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      let url = `http://localhost:8000/api/car/model?page=${currentPage}&limit=${vehiclesPerPage}`;
-
-      const response = await axios.get(url, AxiosUtilsConfig());
-      const { models, currentPage: page } = response.data;
-      setVehicles(models);
-      setCurrentPage(page);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  }, [currentPage, vehiclesPerPage]);
-
   useEffect(() => {
+    const getVehicles = async () => {
+      try {
+        setIsLoading(true);
+        let url = `${BASE_URL}/api/car/model?page=${currentPage}&limit=${vehiclesPerPage}`;
+
+        const response = await axios.get(url, AxiosUtilsConfig());
+        const { models, currentPage: page } = response.data;
+        setVehicles(models);
+        setCurrentPage(page);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+
     getVehicles();
-  }, [getVehicles]);
+  }, [BASE_URL, currentPage, vehiclesPerPage]);
 
   const nextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);

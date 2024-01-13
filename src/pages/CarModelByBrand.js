@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Vehicle from "../components/Vehicle";
 import styles from "../components/Vehicle.module.css";
@@ -8,6 +8,9 @@ import Loader from "../components/loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 function CarModelByBrand() {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -16,36 +19,36 @@ function CarModelByBrand() {
 
   const { brandId } = useParams();
 
-  const getVehicles = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      let url = `http://localhost:8000/api/car/model/${brandId}?page=${currentPage}&limit=${vehiclesPerPage}`;
-      const response = await axios.get(url, AxiosUtilsConfig());
-      const {
-        models,
-        currentPage: page,
-        totalPages: totalPagesFromBackend,
-      } = response.data;
-
-      if (models.length === 0) {
-        setVehicles([]);
-        setCurrentPage(1);
-        setTotalPages(0);
-      } else {
-        setVehicles(models);
-        setCurrentPage(page);
-        setTotalPages(totalPagesFromBackend);
-      }
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  }, [brandId, currentPage]);
-
   useEffect(() => {
+    const getVehicles = async () => {
+      try {
+        setIsLoading(true);
+        let url = `${BASE_URL}/api/car/model/${brandId}?page=${currentPage}&limit=${vehiclesPerPage}`;
+        const response = await axios.get(url, AxiosUtilsConfig());
+        const {
+          models,
+          currentPage: page,
+          totalPages: totalPagesFromBackend,
+        } = response.data;
+
+        if (models.length === 0) {
+          setVehicles([]);
+          setCurrentPage(1);
+          setTotalPages(0);
+        } else {
+          setVehicles(models);
+          setCurrentPage(page);
+          setTotalPages(totalPagesFromBackend);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+
     getVehicles();
-  }, [getVehicles]);
+  }, [BASE_URL, brandId, currentPage, vehiclesPerPage]);
 
   const nextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));

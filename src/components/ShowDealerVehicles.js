@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ShowVehicleDeals from "../components/ShowVehicleDeals";
 import styles from "../components/Vehicle.module.css";
@@ -10,6 +10,9 @@ import Loader from "./loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 function ShowAllDealersVehicles() {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -20,42 +23,48 @@ function ShowAllDealersVehicles() {
 
   const { dealerId } = useParams();
 
-  const getVehicles = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      let url = `http://localhost:8000/api/car/dealerVehicles/${dealerId}?page=${currentPage}&limit=${vehiclesPerPage}`;
-      const response = await axios.get(url, AxiosUtilsConfig());
-      const { data } = response;
-      if (!data.dealerVehicles || data.dealerVehicles.length === 0) {
-        setVehicles([]);
-        setCurrentPage(1);
-        setTotalPages(0);
-      } else {
-        const { dealerVehicles, currentPage, totalPages } = data; // Destructure from data
+  useEffect(() => {
+    //get dealer vehicle by dealer id
+    const getVehicles = async () => {
+      try {
+        setIsLoading(true);
+        let url = `${BASE_URL}/api/car/dealerVehicles/${dealerId}?page=${currentPage}&limit=${vehiclesPerPage}`;
+        const response = await axios.get(url, AxiosUtilsConfig());
+        const { data } = response;
+        if (!data.dealerVehicles || data.dealerVehicles.length === 0) {
+          setVehicles([]);
+          setCurrentPage(1);
+          setTotalPages(0);
+        } else {
+          const { dealerVehicles, currentPage, totalPages } = data; // Destructure from data
 
-        setVehicles(dealerVehicles);
-        setCurrentPage(currentPage);
-        setTotalPages(totalPages);
-        setDealerInfo(
-          dealerVehicles.length > 0 ? dealerVehicles[0].dealerInfo : {}
-        ); // Set dealer information
-        setIsLoading(false);
+          setVehicles(dealerVehicles);
+          setCurrentPage(currentPage);
+          setTotalPages(totalPages);
+          setDealerInfo(
+            dealerVehicles.length > 0 ? dealerVehicles[0].dealerInfo : {}
+          ); // Set dealer information
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [dealerId, currentPage]);
+    };
+    getVehicles();
 
-  const getDealerVehicle = useCallback(async () => {
-    try {
-      const url = `http://localhost:8000/api/car/salesByDealer/${dealerId}`;
-      const response = await axios.get(url, AxiosUtilsConfig());
-      console.log(response.data);
-      setdealerVehicles(response.data); // Assuming setDealerVehicles is a state setter function
-    } catch (error) {
-      console.log(error);
-    }
-  }, [dealerId]);
+    //get sales of dealers by dealer id
+    const getDealerVehicle = async () => {
+      try {
+        const url = `${BASE_URL}/api/car/salesByDealer/${dealerId}`;
+        const response = await axios.get(url, AxiosUtilsConfig());
+        console.log(response.data);
+        setdealerVehicles(response.data); // Assuming setDealerVehicles is a state setter function
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDealerVehicle();
+  }, [BASE_URL, dealerId, currentPage, vehiclesPerPage]);
 
   const columns = [
     {
@@ -89,11 +98,6 @@ function ShowAllDealersVehicles() {
       sortable: true,
     },
   ];
-
-  useEffect(() => {
-    getVehicles();
-    getDealerVehicle();
-  }, [getVehicles, getDealerVehicle]);
 
   const nextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));

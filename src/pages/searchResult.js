@@ -6,6 +6,9 @@ import Loader from "../components/loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 function SearchResult() {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const { query } = useParams();
   const [searchResult, setSearchResult] = useState([]);
   const [getCarAndDealer, setGetCarAndDealer] = useState([]);
@@ -20,7 +23,7 @@ function SearchResult() {
           return;
         }
 
-        const url = `http://localhost:8000/api/car/sales-by-vin?query=${query}`;
+        const url = `${BASE_URL}/api/car/sales-by-vin?query=${query}`;
 
         const response = await axios.get(url, AxiosUtilsConfig());
         const { data } = response;
@@ -37,11 +40,8 @@ function SearchResult() {
         setIsLoading(false);
       }
     };
-
     fetchSearchResults();
-  }, [query]);
 
-  useEffect(() => {
     const fetchCarAndDealerSearchResult = async () => {
       try {
         setIsLoading(true);
@@ -50,7 +50,7 @@ function SearchResult() {
           return;
         }
 
-        const url = `http://localhost:8000/api/car/dealerVehicle?query=${query}`;
+        const url = `${BASE_URL}/api/car/dealerVehicle?query=${query}`;
 
         const response = await axios.get(url, AxiosUtilsConfig());
         const { data } = response;
@@ -67,9 +67,8 @@ function SearchResult() {
         setIsLoading(false);
       }
     };
-
     fetchCarAndDealerSearchResult();
-  }, [query]);
+  }, [BASE_URL, query]);
 
   const vehicle = [
     {

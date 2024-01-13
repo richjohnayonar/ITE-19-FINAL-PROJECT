@@ -5,56 +5,57 @@ import Loader from "../components/loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 function SalesLastThreeYears() {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [sales, setSales] = useState([]);
   const [salesLastThreeYears, setsalesLastThreeYears] = useState([]);
   const [getTopTwo, setGetTopTwo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getSales = async () => {
-    try {
-      setIsLoading(true);
-
-      const url = "http://localhost:8000/api/car/sales";
-      // Retrieve the token from local storage
-
-      const response = await axios.get(url, AxiosUtilsConfig());
-
-      setSales(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    // all sales
+    const getSales = async () => {
+      try {
+        setIsLoading(true);
+
+        const url = `${BASE_URL}/api/car/sales`;
+        // Retrieve the token from local storage
+
+        const response = await axios.get(url, AxiosUtilsConfig());
+
+        setSales(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
     getSales();
-  }, []);
 
-  const getSalesLastThreeYears = async () => {
-    try {
-      setIsLoading(true);
-      const url = "http://localhost:8000/api/car/sales-past-three-years";
-      // Retrieve the token from local storage
+    //sales 3 years ago
+    const getSalesLastThreeYears = async () => {
+      try {
+        setIsLoading(true);
+        const url = `${BASE_URL}/api/car/sales-past-three-years`;
+        // Retrieve the token from local storage
 
-      const response = await axios.get(url, AxiosUtilsConfig());
-      setsalesLastThreeYears(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  };
+        const response = await axios.get(url, AxiosUtilsConfig());
+        setsalesLastThreeYears(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
 
-  useEffect(() => {
     getSalesLastThreeYears();
-  }, []);
 
-  useEffect(() => {
+    //top 2 brannds
     const topTwoBrand = async () => {
       try {
         setIsLoading(true);
-        const url = "http://localhost:8000/api/car/top-brand-sales";
+        const url = `${BASE_URL}/api/car/top-brand-sales`;
 
         const response = await axios.get(url, AxiosUtilsConfig());
         const { data } = response;
@@ -67,7 +68,7 @@ function SalesLastThreeYears() {
     };
 
     topTwoBrand();
-  }, []);
+  }, [BASE_URL]);
 
   const AllSale = [
     {

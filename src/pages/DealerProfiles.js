@@ -5,25 +5,28 @@ import Loader from "../components/loader";
 import AxiosUtilsConfig from "../utils/utils";
 
 function DealerProfile() {
+  // backend api base url
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const [dealerProfiles, setDealerProfiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const getDealerProfiles = async () => {
-    try {
-      setIsLoading(true);
-      const url = "http://localhost:8000/api/car/dealer";
-      const response = await axios.get(url, AxiosUtilsConfig());
-      // console.log(response.data); // Check to ensure you're receiving data
-      setDealerProfiles(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
+    const getDealerProfiles = async () => {
+      try {
+        setIsLoading(true);
+        const url = `${BASE_URL}/api/car/dealer`;
+        const response = await axios.get(url, AxiosUtilsConfig());
+        // console.log(response.data); // Check to ensure you're receiving data
+        setDealerProfiles(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
     getDealerProfiles();
-  }, []);
+  }, [BASE_URL]);
 
   return (
     <div>
