@@ -8,6 +8,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const history = useHistory();
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,7 +45,7 @@ export default function Register() {
 
     const configuration = {
       method: "post",
-      url: "http://localhost:8000/api/register",
+      url: `${BASE_URL}/api/user/register`,
       data: {
         username,
         password,
