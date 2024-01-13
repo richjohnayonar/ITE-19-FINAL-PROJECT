@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ShowDealerProfile from "../components/ShowDealerProfile";
 import Loader from "../components/loader";
+import AxiosUtilsConfig from "../utils/utils";
+
 function DealerProfile() {
   const [dealerProfiles, setDealerProfiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const getDealerProfiles = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get("http://localhost:8000/api/dealer");
+      const url = "http://localhost:8000/api/car/dealer";
+      const response = await axios.get(url, AxiosUtilsConfig());
       // console.log(response.data); // Check to ensure you're receiving data
       setDealerProfiles(response.data);
       setIsLoading(false);

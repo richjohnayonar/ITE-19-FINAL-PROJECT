@@ -4,6 +4,7 @@ import Vehicle from "../components/Vehicle";
 import styles from "../components/Vehicle.module.css";
 import Brandlist from "../components/Brandlist";
 import Loader from "../components/loader";
+import AxiosUtilsConfig from "../utils/utils";
 
 function Home() {
   const [vehicles, setVehicles] = useState([]);
@@ -14,8 +15,9 @@ function Home() {
   const getVehicles = useCallback(async () => {
     try {
       setIsLoading(true);
-      let url = `http://localhost:8000/api/model?page=${currentPage}&limit=${vehiclesPerPage}`;
-      const response = await axios.get(url);
+      let url = `http://localhost:8000/api/car/model?page=${currentPage}&limit=${vehiclesPerPage}`;
+
+      const response = await axios.get(url, AxiosUtilsConfig());
       const { models, currentPage: page } = response.data;
       setVehicles(models);
       setCurrentPage(page);
@@ -24,7 +26,7 @@ function Home() {
       console.log(error);
       setIsLoading(false);
     }
-  }, [currentPage, vehiclesPerPage, setIsLoading]);
+  }, [currentPage, vehiclesPerPage]);
 
   useEffect(() => {
     getVehicles();

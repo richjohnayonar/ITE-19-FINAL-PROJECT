@@ -29,7 +29,7 @@ export default function Login({ handleLogin, isAuthenticated }) {
 
     const configuration = {
       method: "post",
-      url: "http://localhost:8000/api/login",
+      url: "http://localhost:8000/api/user/login",
       data: {
         username,
         password,
@@ -39,7 +39,7 @@ export default function Login({ handleLogin, isAuthenticated }) {
     axios(configuration)
       .then((result) => {
         handleLogin(result.data.token);
-        history.push("/vehicle-list");
+        history.push("/vehicle/vehicle-list");
       })
       .catch((error) => {
         setError("Invalid username or password."); // Handle specific errors from the API if needed

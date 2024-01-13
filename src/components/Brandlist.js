@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "../components/Vehicle.module.css";
 import Searchbar from "./searchbar";
 import Loader from "./loader";
+import AxiosUtilsConfig from "../utils/utils";
+
 function Brandlist() {
   const [brand, setBrand] = useState([]);
   const [activeBrand, setActiveBrand] = useState(null);
@@ -13,7 +15,8 @@ function Brandlist() {
   const getBrand = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get("http://localhost:8000/api/brand");
+      const url = "http://localhost:8000/api/car/brand";
+      const response = await axios.get(url, AxiosUtilsConfig());
       setBrand(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -54,7 +57,7 @@ function Brandlist() {
           <div className={styles["brand-list-container"]}>
             {brand.map((singleBrand) => (
               <Link
-                to={`/vehicle-By-Brand/${singleBrand._id}`}
+                to={`/vehicle/vehicle-By-Brand/${singleBrand._id}`}
                 key={singleBrand._id}
                 className={`${styles["brand-link"]} ${
                   activeBrand === singleBrand._id ? styles["active-brand"] : ""

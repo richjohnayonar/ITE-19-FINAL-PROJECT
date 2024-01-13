@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -12,18 +11,22 @@ import Login from "./components/Login";
 import Landingpage from "./components/LandingPage";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("isAuthenticated") === "false"
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Use a function to initialize the state based on local storage
+    const storedAuth = localStorage.getItem("isAuthenticated") === "true";
+    return storedAuth;
+  });
 
   const handleLogin = (token) => {
     setIsAuthenticated(true);
     localStorage.setItem("isAuthenticated", "true");
-    // Additional logic to store token or authentication details if required
+    localStorage.setItem("token", token); // store the token
+    // Additional logic to store other authentication details if required
   };
 
   const handleLogout = () => {
     localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("token"); // clear the token
     setIsAuthenticated(false);
   };
 
@@ -51,7 +54,8 @@ function App() {
             )}
           />
           <Route
-            path="/vehicle-list"
+            path="/vehicle/*"
+            exact
             render={() => {
               return isAuthenticated ? (
                 <Main handleLogout={handleLogout} />

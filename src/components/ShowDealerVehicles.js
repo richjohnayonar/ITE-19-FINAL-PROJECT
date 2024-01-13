@@ -7,6 +7,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { FaChevronLeft } from "react-icons/fa";
 import DataTable from "react-data-table-component";
 import Loader from "./loader";
+import AxiosUtilsConfig from "../utils/utils";
 
 function ShowAllDealersVehicles() {
   const [vehicles, setVehicles] = useState([]);
@@ -22,8 +23,8 @@ function ShowAllDealersVehicles() {
   const getVehicles = useCallback(async () => {
     try {
       setIsLoading(true);
-      let url = `http://localhost:8000/api/dealerVehicles/${dealerId}?page=${currentPage}&limit=${vehiclesPerPage}`;
-      const response = await axios.get(url);
+      let url = `http://localhost:8000/api/car/dealerVehicles/${dealerId}?page=${currentPage}&limit=${vehiclesPerPage}`;
+      const response = await axios.get(url, AxiosUtilsConfig());
       const { data } = response;
       if (!data.dealerVehicles || data.dealerVehicles.length === 0) {
         setVehicles([]);
@@ -47,9 +48,8 @@ function ShowAllDealersVehicles() {
 
   const getDealerVehicle = useCallback(async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/salesByDealer/${dealerId}`
-      );
+      const url = `http://localhost:8000/api/car/salesByDealer/${dealerId}`;
+      const response = await axios.get(url, AxiosUtilsConfig());
       console.log(response.data);
       setdealerVehicles(response.data); // Assuming setDealerVehicles is a state setter function
     } catch (error) {
@@ -131,7 +131,10 @@ function ShowAllDealersVehicles() {
           </div>
           <h1>{dealerInfo.dealerName}'s Vehicle</h1>
 
-          <Link className={styles["dealer-deal"]} to={"/dealer-profile"}>
+          <Link
+            className={styles["dealer-deal"]}
+            to={"/vehicle/dealer-profile"}
+          >
             <span>
               <FaChevronLeft className={styles["dealer-deal-arrow"]} />
               back

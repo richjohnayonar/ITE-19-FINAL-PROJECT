@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import Loader from "../components/loader";
+import AxiosUtilsConfig from "../utils/utils";
 
 function SalesLastThreeYears() {
   const [sales, setSales] = useState([]);
@@ -12,7 +13,12 @@ function SalesLastThreeYears() {
   const getSales = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get("http://localhost:8000/api/sales");
+
+      const url = "http://localhost:8000/api/car/sales";
+      // Retrieve the token from local storage
+
+      const response = await axios.get(url, AxiosUtilsConfig());
+
       setSales(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -28,9 +34,10 @@ function SalesLastThreeYears() {
   const getSalesLastThreeYears = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        "http://localhost:8000/api/sales-past-three-years"
-      );
+      const url = "http://localhost:8000/api/car/sales-past-three-years";
+      // Retrieve the token from local storage
+
+      const response = await axios.get(url, AxiosUtilsConfig());
       setsalesLastThreeYears(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -47,8 +54,9 @@ function SalesLastThreeYears() {
     const topTwoBrand = async () => {
       try {
         setIsLoading(true);
-        const url = "http://localhost:8000/api/top-brand-sales";
-        const response = await axios.get(url);
+        const url = "http://localhost:8000/api/car/top-brand-sales";
+
+        const response = await axios.get(url, AxiosUtilsConfig());
         const { data } = response;
         setGetTopTwo(data);
         setIsLoading(false);

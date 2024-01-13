@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Loader from "../components/loader";
+import AxiosUtilsConfig from "../utils/utils";
 
 const BrandsTable = () => {
   const [brands, setBrands] = useState([]);
@@ -13,7 +14,8 @@ const BrandsTable = () => {
   const fetchBrands = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get("http://localhost:8000/api/brand");
+      const url = "http://localhost:8000/api/car/brand";
+      const response = await axios.get(url, AxiosUtilsConfig());
       setBrands(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -25,9 +27,8 @@ const BrandsTable = () => {
   const getManufacturer = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(
-        "http://localhost:8000/api/manufacturerVehicle"
-      );
+      const url = "http://localhost:8000/api/car/manufacturerVehicle";
+      const response = await axios.get(url, AxiosUtilsConfig());
       console.log(response.data);
       setManufacturer(response.data);
       setIsLoading(false);
@@ -151,7 +152,7 @@ const BrandsTable = () => {
               <h3>{selectedBrand.brandName}</h3>
               <p>{selectedBrand.manufacturer.description}</p>
               <Link
-                to={`/vehicle-By-Brand/${selectedBrand._id}`}
+                to={`/vehicle/vehicle-By-Brand/${selectedBrand._id}`}
                 className="manufacturer-link"
               >
                 <span className="manufacturer-span">

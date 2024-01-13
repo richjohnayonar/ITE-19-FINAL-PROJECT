@@ -19,24 +19,27 @@ function Main({ handleLogout }) {
         <Navbar handleLogout={handleLogout} />
         <Switch>
           <Route
-            path="/vehicle-By-Brand/:brandId"
+            path="/vehicle/vehicle-By-Brand/:brandId"
             exact
             component={CarModelByBrand}
           />
-          <Route path="/vehicle-list" exact component={VehicleList} />
+          <Route path="/vehicle/vehicle-list" exact component={VehicleList} />
           <Route
-            path="/:dealerName-vehicle/:dealerId"
+            path="/vehicle/:dealerName-vehicle/:dealerId"
             exact
             component={ShowDealerVehicle}
           />
           <Route
-            path="/:modelName-dealers/:modelId"
+            path="/vehicle/:modelName-dealers/:modelId"
             component={ShowSpecificVehicle}
           />
-          <Route path="/dealer-profile" component={DealerProfile} />
-          <Route path="/manufacturer" component={Manufacturer} />
-          <Route path="/sales" component={Sales} />
-          <Route path="/search-result/:query" component={SearchResult} />
+          <Route path="/vehicle/dealer-profile" component={DealerProfile} />
+          <Route path="/vehicle/manufacturer" component={Manufacturer} />
+          <Route path="/vehicle/sales" component={Sales} />
+          <Route
+            path="/vehicle/search-result/:query"
+            component={SearchResult}
+          />
         </Switch>
       </Router>
     </>

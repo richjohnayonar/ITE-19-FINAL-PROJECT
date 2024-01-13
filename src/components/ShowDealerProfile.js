@@ -28,7 +28,7 @@ function ShowDealerProfile({ vehicle }) {
         <h2>{vehicle.dealerEmail}</h2>
       </div>
       <Link
-        to={`/${FormattedDealerName}-vehicle/${vehicle._id}`}
+        to={`/vehicle/${FormattedDealerName}-vehicle/${vehicle._id}`}
         className={styles["View-deals"]}
       >
         <h2>View Deals</h2>

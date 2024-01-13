@@ -5,6 +5,7 @@ import styles from "../components/Vehicle.module.css";
 import Brandlist from "../components/Brandlist";
 import { useParams } from "react-router-dom";
 import Loader from "../components/loader";
+import AxiosUtilsConfig from "../utils/utils";
 
 function ShowSpecificVehicleDeals() {
   const [vehicles, setVehicles] = useState([]);
@@ -19,8 +20,9 @@ function ShowSpecificVehicleDeals() {
   const getVehicles = useCallback(async () => {
     try {
       setIsLoading(true);
-      let url = `http://localhost:8000/api/dealerVehicle/${modelId}?page=${currentPage}&limit=${vehiclesPerPage}`;
-      const response = await axios.get(url);
+      let url = `http://localhost:8000/api/car/dealerVehicle/${modelId}?page=${currentPage}&limit=${vehiclesPerPage}`;
+
+      const response = await axios.get(url, AxiosUtilsConfig());
       const { data } = response; // Destructure the response
       console.log(data);
       if (!data.dealerVehicles || data.dealerVehicles.length === 0) {

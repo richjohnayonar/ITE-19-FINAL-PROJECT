@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Loader from "../components/loader";
+import AxiosUtilsConfig from "../utils/utils";
 
 function SearchResult() {
   const { query } = useParams();
@@ -19,8 +20,9 @@ function SearchResult() {
           return;
         }
 
-        const url = `http://localhost:8000/api/sales-by-vin?query=${query}`;
-        const response = await axios.get(url);
+        const url = `http://localhost:8000/api/car/sales-by-vin?query=${query}`;
+
+        const response = await axios.get(url, AxiosUtilsConfig());
         const { data } = response;
 
         if (data && data.length > 0) {
@@ -48,8 +50,9 @@ function SearchResult() {
           return;
         }
 
-        const url = `http://localhost:8000/api/dealerVehicle?query=${query}`;
-        const response = await axios.get(url);
+        const url = `http://localhost:8000/api/car/dealerVehicle?query=${query}`;
+
+        const response = await axios.get(url, AxiosUtilsConfig());
         const { data } = response;
 
         if (data && data.length > 0) {
@@ -155,7 +158,7 @@ function SearchResult() {
   };
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <div
           style={{
@@ -168,83 +171,115 @@ function SearchResult() {
           <Loader />
         </div>
       ) : (
-        <div style={{ paddingBottom: "50px" }}>
-          <h1
-            style={{
-              textAlign: "center",
-              fontWeight: "900",
-              color: " rgb(102, 98, 98)",
-              margin: "50px 0",
-            }}
-          >
-            Search Results for vin "{query}"
-          </h1>
-
-          {/* vehicle */}
-          <div className="table-container">
-            <h2
+        <div>
+          {searchResult.length === 0 && getCarAndDealer.length === 0 ? (
+            <div
               style={{
-                textTransform: "upperCase",
-                fontWeight: "600",
+                textAlign: "center",
+                fontSize: "50px",
+                fontWeight: "900",
+                color: " rgb(102, 98, 98)",
+                marginTop: "20vh",
+                wordWrap: "break-word",
               }}
             >
-              Vehicle
-            </h2>
-            {getCarAndDealer.length > 0 ? (
-              <DataTable
-                columns={vehicle}
-                data={getCarAndDealer}
-                customStyles={customStyles}
-              />
-            ) : (
-              <p>No results found</p>
-            )}
-          </div>
+              No result for "{query}"
+            </div>
+          ) : (
+            <div>
+              {isLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}
+                >
+                  <Loader />
+                </div>
+              ) : (
+                <div style={{ paddingBottom: "50px" }}>
+                  <h1
+                    style={{
+                      textAlign: "center",
+                      fontWeight: "900",
+                      color: " rgb(102, 98, 98)",
+                      margin: "50px 0",
+                    }}
+                  >
+                    Search Results for vin "{query}"
+                  </h1>
 
-          {/* dealer */}
-          <div className="table-container">
-            <h2
-              style={{
-                textTransform: "upperCase",
-                fontWeight: "600",
-              }}
-            >
-              Dealer
-            </h2>
-            {getCarAndDealer.length > 0 ? (
-              <DataTable
-                columns={dealer}
-                data={getCarAndDealer}
-                customStyles={customStyles}
-              />
-            ) : (
-              <p>No results found</p>
-            )}
-          </div>
+                  {/* vehicle */}
+                  <div className="table-container">
+                    <h2
+                      style={{
+                        textTransform: "upperCase",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Vehicle
+                    </h2>
+                    {getCarAndDealer.length > 0 ? (
+                      <DataTable
+                        columns={vehicle}
+                        data={getCarAndDealer}
+                        customStyles={customStyles}
+                      />
+                    ) : (
+                      <p>No results found</p>
+                    )}
+                  </div>
 
-          {/* Customer */}
-          <div className="table-container">
-            <h2
-              style={{
-                textTransform: "upperCase",
-                fontWeight: "600",
-              }}
-            >
-              Customer
-            </h2>
-            {searchResult.length > 0 ? (
-              <DataTable
-                columns={customer}
-                data={searchResult}
-                customStyles={customStyles}
-              />
-            ) : (
-              <p>No results found</p>
-            )}
-          </div>
+                  {/* dealer */}
+                  <div className="table-container">
+                    <h2
+                      style={{
+                        textTransform: "upperCase",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Dealer
+                    </h2>
+                    {getCarAndDealer.length > 0 ? (
+                      <DataTable
+                        columns={dealer}
+                        data={getCarAndDealer}
+                        customStyles={customStyles}
+                      />
+                    ) : (
+                      <p>No results found</p>
+                    )}
+                  </div>
+
+                  {/* Customer */}
+                  <div className="table-container">
+                    <h2
+                      style={{
+                        textTransform: "upperCase",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Customer
+                    </h2>
+                    {searchResult.length > 0 ? (
+                      <DataTable
+                        columns={customer}
+                        data={searchResult}
+                        customStyles={customStyles}
+                      />
+                    ) : (
+                      <p>No results found</p>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 }
 

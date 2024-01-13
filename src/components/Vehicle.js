@@ -6,7 +6,7 @@ function Vehicle({ vehicle }) {
   const formattedModelName = vehicle.modelName.replace(/\s+/g, "-");
   return (
     <div className={styles["card-container"]}>
-      <Link to={`/${formattedModelName}-dealers/${vehicle._id}`}>
+      <Link to={`/vehicle/${formattedModelName}-dealers/${vehicle._id}`}>
         <img
           className={styles["card-image"]}
           src={vehicle.image}
@@ -14,7 +14,7 @@ function Vehicle({ vehicle }) {
         />
       </Link>
       <div className={styles["card-text-content"]}>
-        <Link to={`/${formattedModelName}-dealers/${vehicle._id}`}>
+        <Link to={`/vehicle/${formattedModelName}-dealers/${vehicle._id}`}>
           <h2>{vehicle.modelName}</h2>
         </Link>
         <div>
